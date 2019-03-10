@@ -35,7 +35,6 @@ myints = [i+1 for i in range(0, n)]
 for i in list(itertools.permutations(myints)):
     p_number += 1
     print("Permutacja ", p_number)
-    print(i)
 
     for x in range(0, n):
         for y in range(0, m):
