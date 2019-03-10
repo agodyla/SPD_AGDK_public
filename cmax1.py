@@ -10,14 +10,14 @@ start = time.time()
 najmniejszy_czas = 100000
 nr_permutacji = 0
 n = 4 # ilosc zadan
-m = 3 # ilosc maszyn
+m = 2 # ilosc maszyn
 m += 1
 p_number = 0
-taskarray = [[0 for x in range(n)] for y in range(m)]
-helparray = [[0 for x in range(n)] for y in range(m)]
+taskarray = [[0 for x in range(m)] for y in range(n)]
+helparray = [[0 for x in range(m)] for y in range(n)]
 
-for i in range(0, n):
-    for j in range(0, m):
+for i in range(len(helparray)):
+    for j in range(len(helparray[i])):
         if j == 0:
             helparray[i][j] = i+1
         else:
@@ -52,24 +52,30 @@ for i in list(itertools.permutations(myints)):
         machine1 += taskarray[x][1]
         if x == 0:
             machine2 = taskarray[x][1] + taskarray[x][2]
-            machine3 = machine2 + taskarray[x][3]
+            if m == 4:
+                machine3 = machine2 + taskarray[x][3]
         else:
             if machine1 <= machine2:
                 machine2 += taskarray[x][2]
             else:
                 machine2 = machine1 + taskarray[x][2]
-            if machine2 <= machine3:
-                machine3 += taskarray[x][3]
-            else:
-                machine3 = machine2 + taskarray[x][3]
+            if m == 4:
+                if machine2 <= machine3:
+                    machine3 += taskarray[x][3]
+                else:
+                    machine3 = machine2 + taskarray[x][3]
     print()
     print("Maszyna 1 konczy po: ", machine1)
     print("Maszyna 2 konczy po: ", machine2)
-    print("Maszyna 3 konczy po: ", machine3)
-
-    if machine3 < najmniejszy_czas:
-        nr_permutacji = p_number
-        najmniejszy_czas = machine3
+    if m == 4:
+        print("Maszyna 3 konczy po: ", machine3)
+        if machine3 < najmniejszy_czas:
+            nr_permutacji = p_number
+            najmniejszy_czas = machine3
+    elif m == 3:
+        if machine2 < najmniejszy_czas:
+            nr_permutacji = p_number
+            najmniejszy_czas = machine2
 
 end = time.time()
 
