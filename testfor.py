@@ -375,16 +375,22 @@ for i in list(itertools.permutations(myints)):
         for y in range(0, m+1):
             cmaxarray[x][y] = 0
 
-    for x in range(1, n):
+    for x in range(1, n+1):
         for y in range(1, m):
             cmaxarray[x][y] = max(cmaxarray[x-1][y], cmaxarray[x][y-1]) + tmparr[x-1][y-1]
+
+    print("Zadania: ")
+    for k in range(len(tmparr)):
+        for l in range(len(tmparr[k])):
+            print(tmparr[k][l], end=' ')
+        print()
 
     print("cmax array")
     for k in range(len(cmaxarray)):
         for l in range(len(cmaxarray[k])):
             print(cmaxarray[k][l], end=' ')
         print()
-    print(max(map(max, cmaxarray))+1)
+    print(max(map(max, cmaxarray)))
     #print()
     #print("Maszyna 1 konczy po: ", machine1)
     print("Maszyna 2 konczy po: ", machine2)
