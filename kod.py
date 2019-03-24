@@ -84,6 +84,8 @@ def calc_cmax(list_tmp):
     m=ilosc_maszyn+1
     n=len(list_tmp)
     taskarray = [[0 for x in range(m)] for y in range(n)]
+    cmaxarray = [[0 for x in range(m + 1)] for y in range(n + 1)]
+    tmparr = [[0 for x in range(m - 1)] for y in range(n)]
 
     for i in range(len(taskarray)):
         for j in range(len(taskarray[i])):
@@ -92,129 +94,142 @@ def calc_cmax(list_tmp):
             else:
                 taskarray[i][j] = int(tekst[1 + list_tmp[i] * ilosc_maszyn + j])
 
-    #print('taskarray',taskarray) #diagnostyka
-
-    machine1, machine2, machine3, machine4, machine5 = 0, 0, 0, 0, 0
-    machine6,machine7,machine8,machine9,machine10 = 0, 0, 0, 0, 0
-    machine11, machine12, machine13, machine14, machine15 = 0, 0, 0, 0, 0
-    machine16, machine17, machine18, machine19, machine20 = 0, 0, 0, 0, 0
-
     for x in range(0, n):
-        machine1 += taskarray[x][1]
-        if x == 0:
-            machine2 = taskarray[x][1] + taskarray[x][2]
-            machine3 = machine2 + taskarray[x][3]
-            machine4 = machine3 + taskarray[x][4]
-            machine5 = machine4 + taskarray[x][5]
-            machine6 = machine5 + taskarray[x][6]
-            machine7 = machine6 + taskarray[x][7]
-            machine8 = machine7 + taskarray[x][8]
-            machine9 = machine8 + taskarray[x][9]
-            machine10 = machine9 + taskarray[x][10]
-            machine11 = machine10 + taskarray[x][11]
-            machine12 = machine11 + taskarray[x][12]
-            machine13 = machine12 + taskarray[x][13]
-            machine14 = machine13 + taskarray[x][14]
-            machine15 = machine14 + taskarray[x][15]
-            machine16 = machine15 + taskarray[x][16]
-            machine17 = machine16 + taskarray[x][17]
-            machine18 = machine17 + taskarray[x][18]
-            machine19 = machine18 + taskarray[x][19]
-            machine20 = machine19 + taskarray[x][20]
-        else:
-            if machine1 <= machine2:
-                machine2 += taskarray[x][2]
-            else:
-                machine2 = machine1 + taskarray[x][2]
-            if machine2 <= machine3:
-                machine3 += taskarray[x][3]
-            else:
-                machine3 = machine2 + taskarray[x][3]
-            if machine3 <= machine4:
-                machine4 += taskarray[x][4]
-            else:
-                machine4 = machine3 + taskarray[x][4]
-            if machine4 <= machine5:
-                machine5 += taskarray[x][5]
-            else:
-                machine5 = machine4 + taskarray[x][5]
+        for y in range(0, m-1):
+            tmparr[x][y] = taskarray[x][y+1]
 
-            if machine5 <= machine6:
-                machine6 += taskarray[x][6]
-            else:
-                machine6 = machine5 + taskarray[x][6]
+    for x in range(0, n+1):
+        for y in range(0, m+1):
+            cmaxarray[x][y] = 0
 
-            if machine6 <= machine7:
-                machine7 += taskarray[x][7]
-            else:
-                machine7 = machine6 + taskarray[x][7]
+    for x in range(1, n+1):
+        for y in range(1, m):
+            cmaxarray[x][y] = max(cmaxarray[x-1][y], cmaxarray[x][y-1]) + tmparr[x-1][y-1]
 
-            if machine7 <= machine8:
-                machine8 += taskarray[x][8]
-            else:
-                machine8 = machine7 + taskarray[x][8]
-
-            if machine8 <= machine9:
-                machine9 += taskarray[x][9]
-            else:
-                machine9 = machine8 + taskarray[x][9]
-
-            if machine9 <= machine10:
-                machine10 += taskarray[x][10]
-            else:
-                machine10 = machine9 + taskarray[x][10]
-
-            if machine10 <= machine11:
-                machine11 += taskarray[x][11]
-            else:
-                machine11 = machine10 + taskarray[x][11]
-
-            if machine11 <= machine12:
-                machine12 += taskarray[x][12]
-            else:
-                machine12 = machine11 + taskarray[x][12]
-
-            if machine12 <= machine13:
-                machine13 += taskarray[x][13]
-            else:
-                machine13 = machine12 + taskarray[x][13]
-
-            if machine13 <= machine14:
-                machine14 += taskarray[x][14]
-            else:
-                machine14 = machine13 + taskarray[x][14]
-
-            if machine14 <= machine15:
-                machine15 += taskarray[x][15]
-            else:
-                machine15 = machine14 + taskarray[x][15]
-
-            if machine15 <= machine16:
-                machine16 += taskarray[x][16]
-            else:
-                machine16 = machine15 + taskarray[x][16]
-
-            if machine16 <= machine17:
-                machine17 += taskarray[x][17]
-            else:
-                machine17 = machine16 + taskarray[x][17]
-
-            if machine17 <= machine18:
-                machine18 += taskarray[x][18]
-            else:
-                machine18 = machine17 + taskarray[x][18]
-
-            if machine18 <= machine19:
-                machine19 += taskarray[x][19]
-            else:
-                machine19 = machine18 + taskarray[x][19]
-
-            if machine19 <= machine20:
-                machine20 += taskarray[x][20]
-            else:
-                machine20 = machine19 + taskarray[x][20]
+    #print('test', max(map(max, cmaxarray)))
+    #print('taskarray',taskarray) #diagnostyka
+    # machine1, machine2, machine3, machine4, machine5 = 0, 0, 0, 0, 0
+    # machine6,machine7,machine8,machine9,machine10 = 0, 0, 0, 0, 0
+    # machine11, machine12, machine13, machine14, machine15 = 0, 0, 0, 0, 0
+    # machine16, machine17, machine18, machine19, machine20 = 0, 0, 0, 0, 0
+    #
+    # for x in range(0, n):
+    #     machine1 += taskarray[x][1]
+    #     if x == 0:
+    #         machine2 = taskarray[x][1] + taskarray[x][2]
+    #         machine3 = machine2 + taskarray[x][3]
+    #         machine4 = machine3 + taskarray[x][4]
+    #         machine5 = machine4 + taskarray[x][5]
+    #         machine6 = machine5 + taskarray[x][6]
+    #         machine7 = machine6 + taskarray[x][7]
+    #         machine8 = machine7 + taskarray[x][8]
+    #         machine9 = machine8 + taskarray[x][9]
+    #         machine10 = machine9 + taskarray[x][10]
+    #         machine11 = machine10 + taskarray[x][11]
+    #         machine12 = machine11 + taskarray[x][12]
+    #         machine13 = machine12 + taskarray[x][13]
+    #         machine14 = machine13 + taskarray[x][14]
+    #         machine15 = machine14 + taskarray[x][15]
+    #         machine16 = machine15 + taskarray[x][16]
+    #         machine17 = machine16 + taskarray[x][17]
+    #         machine18 = machine17 + taskarray[x][18]
+    #         machine19 = machine18 + taskarray[x][19]
+    #         machine20 = machine19 + taskarray[x][20]
+    #     else:
+    #         if machine1 <= machine2:
+    #             machine2 += taskarray[x][2]
+    #         else:
+    #             machine2 = machine1 + taskarray[x][2]
+    #         if machine2 <= machine3:
+    #             machine3 += taskarray[x][3]
+    #         else:
+    #             machine3 = machine2 + taskarray[x][3]
+    #         if machine3 <= machine4:
+    #             machine4 += taskarray[x][4]
+    #         else:
+    #             machine4 = machine3 + taskarray[x][4]
+    #         if machine4 <= machine5:
+    #             machine5 += taskarray[x][5]
+    #         else:
+    #             machine5 = machine4 + taskarray[x][5]
+    #
+    #         if machine5 <= machine6:
+    #             machine6 += taskarray[x][6]
+    #         else:
+    #             machine6 = machine5 + taskarray[x][6]
+    #
+    #         if machine6 <= machine7:
+    #             machine7 += taskarray[x][7]
+    #         else:
+    #             machine7 = machine6 + taskarray[x][7]
+    #
+    #         if machine7 <= machine8:
+    #             machine8 += taskarray[x][8]
+    #         else:
+    #             machine8 = machine7 + taskarray[x][8]
+    #
+    #         if machine8 <= machine9:
+    #             machine9 += taskarray[x][9]
+    #         else:
+    #             machine9 = machine8 + taskarray[x][9]
+    #
+    #         if machine9 <= machine10:
+    #             machine10 += taskarray[x][10]
+    #         else:
+    #             machine10 = machine9 + taskarray[x][10]
+    #
+    #         if machine10 <= machine11:
+    #             machine11 += taskarray[x][11]
+    #         else:
+    #             machine11 = machine10 + taskarray[x][11]
+    #
+    #         if machine11 <= machine12:
+    #             machine12 += taskarray[x][12]
+    #         else:
+    #             machine12 = machine11 + taskarray[x][12]
+    #
+    #         if machine12 <= machine13:
+    #             machine13 += taskarray[x][13]
+    #         else:
+    #             machine13 = machine12 + taskarray[x][13]
+    #
+    #         if machine13 <= machine14:
+    #             machine14 += taskarray[x][14]
+    #         else:
+    #             machine14 = machine13 + taskarray[x][14]
+    #
+    #         if machine14 <= machine15:
+    #             machine15 += taskarray[x][15]
+    #         else:
+    #             machine15 = machine14 + taskarray[x][15]
+    #
+    #         if machine15 <= machine16:
+    #             machine16 += taskarray[x][16]
+    #         else:
+    #             machine16 = machine15 + taskarray[x][16]
+    #
+    #         if machine16 <= machine17:
+    #             machine17 += taskarray[x][17]
+    #         else:
+    #             machine17 = machine16 + taskarray[x][17]
+    #
+    #         if machine17 <= machine18:
+    #             machine18 += taskarray[x][18]
+    #         else:
+    #             machine18 = machine17 + taskarray[x][18]
+    #
+    #         if machine18 <= machine19:
+    #             machine19 += taskarray[x][19]
+    #         else:
+    #             machine19 = machine18 + taskarray[x][19]
+    #
+    #         if machine19 <= machine20:
+    #             machine20 += taskarray[x][20]
+    #         else:
+    #             machine20 = machine19 + taskarray[x][20]
     #print("Czas wykonywania to:",machine5) #diagnostyka
-    return machine20 #narazie zawsze machine5, ale trzeba to zrobic uniwersalne
+    zwroc=max(map(max, cmaxarray))
+    return zwroc
 
 
 def find_max(list_neh,all_czas_zad):
