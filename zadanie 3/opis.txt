@@ -1,0 +1,2 @@
+STEROWANIE PROCESAMI DYSKRETNYMI
+Lab 3: Symulowane wyzarzanie
