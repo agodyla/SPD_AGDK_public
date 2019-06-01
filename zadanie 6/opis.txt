@@ -1,0 +1,2 @@
+Symulacja procesu wytwórczego
+Praca z bibloteka: https://developers.google.com/optimization/install/
